@@ -57,8 +57,9 @@ _This is a simple automative tasks that is using 'ansible' to install the webser
 - 'openssh' is installed on the controller and the target hosts.
 
 ## How to use
-1. Re-define the target hosts IP addresses:
+1. Re-define the target hosts IP addresses and their variables:
         `~/inv/hosts`
+        `~/group_vars`
 2. Testing all hosts are reachable:
         `ansible all -m ping`
 3. Run the playbook to install webservice packages:
