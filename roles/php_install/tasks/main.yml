@@ -1,0 +1,12 @@
+---
+# These tasks used to install php packages
+- name: Ensure group "php-fpm" exists
+  group:
+    name: "{{ php_packages }}"
+    state: present
+    
+- name: Ensure php-fpm is at the latest version
+  apt: 
+    name: "{{ php_packages }}"
+    state: latest
+  notify: restart nginx

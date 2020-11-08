@@ -1,0 +1,12 @@
+---
+# For testing purpose
+- hosts: all
+  become: yes
+  tasks:
+  - name: Check hosts's info
+    command: hostnamectl
+    register: output
+    
+  - name: Print to console
+    debug:
+      msg: "{{ output.stdout }}"

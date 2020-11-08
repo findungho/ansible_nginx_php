@@ -1,0 +1,6 @@
+---
+# This playbook used to uninstall nginx and php on the target hosts.
+- hosts: all
+  become: true
+  roles:
+  - webservices_uninstall

@@ -1,0 +1,29 @@
+---
+# These tasks used to uninstall "nginx" packages and "php" packages on the target hosts.
+- name: Ensure group "nginx" exists
+  group:
+    name: "{{ nginx_packages[0] }}"
+    state: present
+
+- name: Stop "nginx"
+  service:
+    name: "{{ nginx_packages[0] }}"
+    state: stopped
+
+- name: Ensure "nginx" packages is not installed
+  apt:
+    name: "{{ nginx_packages }}"
+    state: absent
+    purge: yes
+    
+- name: Ensure "php" packages is not installed
+  apt:
+    name: "{{ php_packages }}"
+    state: absent
+    purge: yes
+    
+- name: Delete website's templates folder
+  file:
+    path: /var/www/{{ domain }}
+    state: absent
+

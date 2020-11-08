@@ -1,0 +1,7 @@
+---
+# Define variables for node 2
+domain: testserver_1
+ansible_user: testserver_1
+ansible_sudo_pass: ansible
+ansible_ssh_pass: ansible
+ansible_python_interpreter: /usr/bin/python3

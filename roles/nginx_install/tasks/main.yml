@@ -1,0 +1,59 @@
+---
+# These tasks used to install and configure nginx service
+- name: Update the target system to the latest version (apt-get update)
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Ensure group "nginx" exists
+  group:
+    name: "{{ nginx_packages }}"
+    state: present
+ 
+- name: Ensure "nginx" is at the latest version
+  apt: 
+    name: "{{ nginx_packages }}"
+    state: latest
+
+- name: Delete default nginx config
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: restart nginx
+
+- name: Copy a new nginx config file
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/sites-available/{{ domain }}
+  notify: restart nginx
+
+- name: Create symlink
+  file:
+    src: /etc/nginx/sites-available/{{ domain }}
+    dest: /etc/nginx/sites-enabled/{{ domain }}
+    state: link
+  notify: restart nginx
+
+# These tasks used to copy the website's templates to the target hosts.
+- name: Create "www" directory
+  file:
+    path: /var/www/{{ domain }}
+    state: directory
+    mode: "0775"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+- name: Sync website's templates - Copy from "files" folder
+  synchronize:
+    src: files/
+    dest: /var/www/{{ domain }}
+    archive: no
+    checksum: yes
+    recursive: yes
+    delete: yes
+  become: no
+
+- name: Start nginx
+  service:
+    name: nginx
+    state: started

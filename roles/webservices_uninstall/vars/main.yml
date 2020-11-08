@@ -1,0 +1,6 @@
+---
+nginx_packages:
+  - nginx
+  - nginx-common
+php_packages:
+  - php-fpm

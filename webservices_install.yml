@@ -1,0 +1,7 @@
+---
+# This playbook used to install "nginx" and "php-fpm" on the target hosts.
+- hosts: all
+  become: yes
+  roles:
+  - nginx_install
+  - php_install
